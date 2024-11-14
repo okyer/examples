@@ -15,6 +15,7 @@ ADD go.sum .
 RUN go mod download
 COPY . .
 COPY api/demo/etc /app/etc
+COPY openGauss-connector-go-pq /app/openGauss-connector-go-pq
 RUN go build -ldflags="-s -w" -o /app/demo api/demo/demo.go
 
 
@@ -27,5 +28,6 @@ ENV TZ Asia/Shanghai
 WORKDIR /app
 COPY --from=builder /app/demo /app/demo
 COPY --from=builder /app/etc /app/etc
+COPY --from=builder /app/openGauss-connector-go-pq /app/openGauss-connector-go-pq
 
 CMD ["./demo", "-f", "etc/demo-api.yaml"]
