@@ -10,12 +10,10 @@ RUN apk update --no-cache && apk add --no-cache tzdata
 
 WORKDIR /build
 
-ADD go.mod .
-ADD go.sum .
-RUN go mod download
 COPY . .
 COPY api/demo/etc /app/etc
 COPY openGauss-connector-go-pq /app/openGauss-connector-go-pq
+RUN go mod download
 RUN go build -ldflags="-s -w" -o /app/demo api/demo/demo.go
 
 
